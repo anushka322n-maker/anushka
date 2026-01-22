@@ -1,0 +1,1 @@
+On Day 4, I prepared a database by importing data from a MySQL database into Power BI. I learned how to connect Power BI with MySQL and load the required data. After this, the trainer conducted a test to evaluate our understanding of the topics covered.
