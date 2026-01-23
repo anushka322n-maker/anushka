@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Interactive Financial Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #0f172a;
+      color: #e5e7eb;
+    }
+    header {
+      padding: 20px;
+      background: #020617;
+      font-size: 22px;
+      font-weight: 600;
+      text-align: center;
+    }
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 20px;
+      padding: 20px;
+    }
+    .card {
+      background: #020617;
+      border-radius: 14px;
+      padding: 15px;
+      box-shadow: 0 10px 25px rgba(0,0,0,.4);
+    }
+    .card h3 {
+      margin: 0 0 10px;
+      font-weight: 500;
+    }
+    select {
+      background: #020617;
+      color: #e5e7eb;
+      border: 1px solid #334155;
+      padding: 6px 10px;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+
+<header>?? Interactive Market Dashboard (Power BI style)</header>
+
+<div class="container">
+  <div class="card">
+    <h3>Price Trend</h3>
+    <canvas id="priceChart"></canvas>
+  </div>
+
+  <div class="card">
+    <h3>Volume Analysis</h3>
+    <canvas id="volumeChart"></canvas>
+  </div>
+
+  <div class="card">
+    <h3>Daily Change %</h3>
+    <canvas id="changeChart"></canvas>
+  </div>
+</div>
+
+<script>
+async function loadData() {
+  const response = await fetch('csvjson.json');
+  const data = await response.json();
+
+  data.reverse(); // chronological order
+
+  const dates = data.map(d => d.Date);
+  const prices = data.map(d => parseFloat(d.Price.replace(/,/g, '')));
+  const volumes = data.map(d => d['Vol.'] ? parseFloat(d['Vol.'].replace('K','')) : 0);
+  const changes = data.map(d => parseFloat(d['Change %'].replace('%','')));
+
+  buildCharts(dates, prices, volumes, changes);
+}
+
+function buildCharts(dates, prices, volumes, changes) {
+  const commonOptions = {
+    responsive: true,
+    interaction: { mode: 'index', intersect: false },
+    plugins: { legend: { display: false } },
+    scales: {
+      x: { ticks: { color: '#94a3b8' } },
+      y: { ticks: { color: '#94a3b8' } }
+    }
+  };
+
+  new Chart(document.getElementById('priceChart'), {
+    type: 'line',
+    data: {
+      labels: dates,
+      datasets: [{
+        label: 'Price',
+        data: prices,
+        borderWidth: 2,
+        tension: 0.3
+      }]
+    },
+    options: commonOptions
+  });
+
+  new Chart(document.getElementById('volumeChart'), {
+    type: 'bar',
+    data: {
+      labels: dates,
+      datasets: [{
+        label: 'Volume (K)',
+        data: volumes
+      }]
+    },
+    options: commonOptions
+  });
+
+  new Chart(document.getElementById('changeChart'), {
+    type: 'line',
+    data: {
+      labels: dates,
+      datasets: [{
+        label: 'Change %',
+        data: changes,
+        borderWidth: 2,
+        tension: 0.3
+      }]
+    },
+    options: commonOptions
+  });
+}
+
+loadData();
+</script>
+
+</body>
+</html>
