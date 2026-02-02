@@ -1,0 +1,14 @@
+
+This report presents an analysis of Amazon
+
+sales data using Power Bl to evaluate overall business performance, product distribution, category-wise sales, and customer location trends. The dashboard highlights key
+
+performance indicators such as a total of 26 products and overall sales amounting to 30,000, providing a quick summary of sales performance. A donut chart illustrates the distribution of total sales by category, showing that Footwear is the highest revenue-generating category, followed by Electronics and Home Appliances, while Books and Clothing contribute a smaller share. The map visualization represents sales by customer location, where bubble size indicates total sales and colors represent different product categories, revealing that sales are concentrated in major cities such as Denver, Houston, Dallas, and Miami, with Denver showing strong multi-category performance. Additional visuals comparing product count and order status by location help identify regions with higher customer
+
+engagement. Overall, the dashboard enables
+
+effective visualization and interpretation of sales
+
+patterns, supporting t
+
+strategic planning.
